@@ -19,6 +19,18 @@
     <!-- endbuild -->
   </head>
   <body ng-app="spiroApp">
+    <script type="text/javascript">
+(function($){
+    $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+            event.preventDefault(); 
+            event.stopPropagation(); 
+            $(this).parent().siblings().removeClass('open');
+            $(this).parent().toggleClass('open');
+        });
+    });
+})(jQuery)
+    </script>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -29,12 +41,19 @@
     <div class="header">
   <ul class="nav nav-pills pull-right">
     <li><a ng-href="#">Home</a></li>
-    <li><a ng-href="#/spiro_one/">Spiro dots</a></li>
-    <li><a ng-href="#/spiro_two/">Spiro tentacles</a></li>
-    <li><a ng-href="#/spiro_three/">Spiro lines</a></li>
-    <li><a ng-href="#/spiro_five/">no fade</a></li>
-    <li><a ng-href="#/spiro_six/">Circles</a></li>
-    <li><a ng-href="#/spiro_four/">Make your Own</a></li>
+    <li class="dropdown">
+        <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown">Spirals</a>
+        <ul class="dropdown-menu">
+            <li><a ng-href="#/spiro_one/">Spiro dots</a></li>
+            <li><a ng-href="#/spiro_two/">Spiro tentacles</a></li>
+            <li><a ng-href="#/spiro_three/">Spiro lines</a></li>
+            <li><a ng-href="#/spiro_five/">no fade</a></li>
+            <li><a ng-href="#/spiro_six/">Circles</a></li>
+            <li><a ng-href="#/spiro_four/">Make your Own</a></li>
+        </ul>
+    </li>
+    <li><a ng-href="#/spiro_seven/">WEBGL</a></li>
+
   </ul>
 </div>
 </div>
@@ -72,6 +91,7 @@
         <script src="scripts/controllers/spiro_four.js"></script>
         <script src="scripts/controllers/spiro_five.js"></script>
         <script src="scripts/controllers/spiro_six.js"></script>
+        <script src="scripts/controllers/spiro_seven.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -61,6 +61,10 @@ angular
         templateUrl: 'views/spiro_six.html',
         controller: 'SpiroSixCtrl'
       })
+      .when('/spiro_seven', {
+        templateUrl: 'views/spiro_seven.html',
+        controller: 'SpiroSevenCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
