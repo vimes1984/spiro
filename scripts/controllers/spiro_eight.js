@@ -4,13 +4,12 @@
 
 angular.module('spiroApp')
   .controller('SpiroEightCtrl', function ($scope) {
- //   Physijs.scripts.worker = '/canvas/bower_components/Physijs/physijs_worker.js';
+ //  Physijs.scripts.worker = '/canvas/bower_components/Physijs/physijs_worker.js';
   //  Physijs.scripts.ammo = '/canvas/bower_components/ammo.js/builds/ammo.js';
     Physijs.scripts.ammo = '/bower_components/ammo.js/builds/ammo.js';
     Physijs.scripts.worker = '/bower_components/Physijs/physijs_worker.js';
-
 	var initScene, render, createShape, NoiseGen,
-		renderer, render_stats, physics_stats, scene, light, ground, ground_geometry, ground_material, camera;
+		renderer, render_stats, physics_stats, scene, light, ground, ground_geometry, ground_material;
 	
 	$scope.initScene = function() {
 		TWEEN.start();
@@ -30,16 +29,18 @@ angular.module('spiroApp')
 				scene.simulate( undefined, 2 );
 			}
 		);
-		
-		camera = new THREE.PerspectiveCamera(
+		$scope.camera = new THREE.PerspectiveCamera(
 			35,
 			window.innerWidth / window.innerHeight,
 			1,
 			1000
 		);
-		camera.position.set( 60, 50, 60 );
-		camera.lookAt( scene.position );
-		scene.add( camera );
+			$scope.camera.position.y = 60;
+			$scope.camera.position.x = 50;
+			$scope.camera.position.z = 50;
+		$scope.camera.position.set( $scope.camera.position.y, $scope.camera.position.x, $scope.camera.position.z );
+		$scope.camera.lookAt( scene.position );
+		scene.add( $scope.camera );
 		
 		// Light
 		light = new THREE.DirectionalLight( 0xFFFFFF );
@@ -60,7 +61,7 @@ angular.module('spiroApp')
 		// Materials
 		ground_material = Physijs.createMaterial(
 			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( '../images/floor.jpg' ) }),
-			.8, // high friction
+			.1, // high friction
 			.4 // low restitution
 		);
 		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
@@ -72,7 +73,7 @@ angular.module('spiroApp')
 		ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
 		for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
 			var vertex = ground_geometry.vertices[i];
-			vertex.z = NoiseGen.noise( vertex.x / 10, vertex.y / 10 ) * 2;
+			vertex.z = NoiseGen.noise( vertex.x / 200, vertex.y / 20 ) * 2;
 		}
 		ground_geometry.computeFaceNormals();
 		ground_geometry.computeVertexNormals();
@@ -86,7 +87,8 @@ angular.module('spiroApp')
 			50,
 			50
 		);
-		$scope.ground.rotation.x = Math.PI / -2;
+		//$scope.ground.rotation.y;
+	$scope.ground.rotation.x = Math.PI / -2;
 		$scope.ground.receiveShadow = true;
 		scene.add( $scope.ground );
 		
@@ -97,8 +99,8 @@ angular.module('spiroApp')
 	};
 	
 	render = function() {
-		requestAnimFrame( render );
-		renderer.render( scene, camera );
+		$scope.globalID = requestAnimFrame( render );
+		renderer.render( scene, $scope.camera );
 	};
 	
 		createShape = (function() {
@@ -173,9 +175,14 @@ angular.module('spiroApp')
 			setTimeout( doCreateShape, 250 );
 		};
 	})();
-	
-	$scope.initScene();
-	
+	$scope.drawit = function(){
+		$scope.cameracontrols = true;
+		$scope.initScene();
+	}
+	$scope.stopit = function stopit(){;
+			cancelRequestAnimFrame($scope.globalID);
+			cancelRequestAnimFrame($scope.globalIDrot);
+	};
   });
 
 
