@@ -14,8 +14,8 @@ window.cancelRequestAnimFrame = ( function() {
         window.mozCancelRequestAnimationFrame       ||
         window.oCancelRequestAnimationFrame     ||
         window.msCancelRequestAnimationFrame        ||
-        clearTimeout
-} )();
+        clearTimeout;
+  })();
 angular
   .module('spiroApp', [
     'ngCookies',

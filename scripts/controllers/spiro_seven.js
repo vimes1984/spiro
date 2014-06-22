@@ -1,101 +1,150 @@
 'use strict';
-
+/* global $, requestAnimFrame, cancelRequestAnimFrame */
 angular.module('spiroApp')
   .controller('SpiroSevenCtrl', function ($scope) {
-	    $scope.canvas = $('#spiro')[0];
-	    $scope.canvascanvasContext =  $scope.canvas.getContext("2d");
-	    //interval
-	    $scope.timerId = 0;
-
-	   // console.log($scope.canvas);
-	  $scope.clearit = function clearit(){
-	    // Store the current transformation matrix
-	    // Use the identity matrix while clearing the canvas
-	    $scope.canvascanvasContext.setTransform(1, 0, 0, 1, 0, 0);
-	    $scope.canvascanvasContext.clearRect(0, 0, $scope.width, $scope.height);
-	    $scope.canvas.width = $scope.canvas.width;
-	  };
-	  $scope.randomColor = function randomColor(num) {return Math.floor(Math.random() * num);}
-	  
-	  //Create elements .arc(x, y, radius, startAngle, endAngle, counterClockwise);
-	  $scope.canvascanvasContextArray = [];
-	  for (var i = 0, l = 1; i < l; i++) {
-	      $scope.canvascanvasContextArray.push({'xpos': Math.floor((Math.random() * 600) - 1), 'Ypos':Math.floor((Math.random() * 600) - 1), 'Rad':Math.floor((Math.random() * 200) - 1)});
-	      $scope.canvascanvasContextArray.push();
-	  }
+	//defualt stuf and setup first 
+    $scope.cameracontrols = false;
+    //images and testures
+    $scope.floor = THREE.ImageUtils.loadTexture( '../images/floor.jpg' );
+    $scope.floor.wrapS = THREE.RepeatWrapping;
+	$scope.floor.wrapT = THREE.RepeatWrapping;
 
 
+	$scope.renderer = new THREE.WebGLRenderer({antialias: true});
+	$scope.renderer.shadowMapEnabled = true;
+
+	$scope.renderer.setClearColorHex( 0x000000, 1 );
+	
+	$('#spirocube').append( $scope.renderer.domElement );
+
+	$scope.canvas = $('#spirocube')[0];
+
+	//basic setup scene camera first
+	$scope.scene = new THREE.Scene();
+	$scope.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); 
+	$scope.renderer.setSize( $scope.canvas.firstChild.clientWidth, 700 ); 
+
+	//objects next! first we create the object geometrey first
+	$scope.objects = {};
+
+	/*PlaneGeometry(width, height, widthSegments, heightSegments)
+		width — Width along the X axis.
+		height — Height along the Y axis.
+		widthSegments — Optional. Default is 1. 
+		heightSegments — Optional. Default is 1.*/
+	$scope.geometryplane = new  THREE.PlaneGeometry(window.innerHeight/2, window.innerWidth/2,200,200 );
+	/*TorusKnotGeometry(radius, tube, radialSegments, tubularSegments, p, q, heightScale)
+		radius — Default is 100. 
+		tube — Default is 40. 
+		radialSegments — Default is 64. 
+		tubularSegments — Default is 8. 
+		p — Default is 2. 
+		q — Default is 3. 
+		heightScale — Default is 1.*/
+	$scope.geometrytorus =new THREE.TorusKnotGeometry( 5, 1.5, 50, 8 );
+	//material next 
+	$scope.randomColor = '0x'+Math.floor(Math.random()*16777215).toString(16);
+
+	$scope.material = new THREE.MeshPhongMaterial( { 
+		color: 0xff0000,
+		side: THREE.DoubleSide,
+	} );
+
+	$scope.materialplane = new THREE.MeshBasicMaterial( { 
+		color: 0xffffff,
+		//wireframe: false,
+		side: THREE.DoubleSide,
+		map: $scope.floor,
+	} );
+	//then put it together 
+
+	$scope.TorusKnot = new THREE.Mesh( $scope.geometrytorus, $scope.material );
+
+	$scope.plane = new THREE.Mesh( $scope.geometryplane, $scope.materialplane ); 
+
+	$scope.light = new THREE.SpotLight( 0xffffff, 1, 100 );
+
+	//default object positions/rotations
+	$scope.plane.rotation.y = 21.91;
+	$scope.plane.rotation.x = 21.150000000000677;	
+	$scope.plane.rotation.z = 21.150000000000677;
+
+	$scope.TorusKnot.position.y = 14;
+	$scope.TorusKnot.position.x = 13;	
+	
+
+	$scope.camera.position.z = 113;
 
 
-	        $scope.Ymove = Math.floor((Math.random() * 690) - 1);
-	        $scope.quadracpx = Math.floor((Math.random() * 700) + 1);
-	        $scope.quadracpy = Math.floor((Math.random() * 700) + 1);
-	        $scope.quadrax = Math.floor((Math.random() * 700) + 1);
-	        $scope.quadray = Math.floor((Math.random() * 700) + 1);
-
-	        $scope.updown = false;
+	$scope.light.position.set( 50, 50, 50 );
+	
+	// lights 
 
 
 
 
+	console.log($scope.light);
+	$scope.TorusKnot.receiveShadow = true;
+	$scope.plane.receiveShadow = true;
+
+	$scope.light.castShadow = true;
+
+	$scope.light.shadowDarkness = 0.5;
+	$scope.light.shadowCameraVisible = true;
+	$scope.light.shadowCameraRight     =  5;
+	$scope.light.shadowCameraLeft     = -5;
+	$scope.light.shadowCameraTop      =  5;
+	$scope.light.shadowCameraBottom   = -5;
+	$scope.scene.add( $scope.light );
+	
+	//add our obejects to the scene
+	$scope.scene.add( $scope.TorusKnot);
+	$scope.scene.add( $scope.plane);
+	
+	//camera position
+
+	
 
 
-	  $scope.draw = function draw(e){
-	    $scope.now = new Date();
-	    $scope.sec = $scope.now.getMilliseconds();
-		//$scope.canvas.width = $scope.canvas.width;
-		// $scope.canvascanvasContext.beginPath();
+   		// console.log($scope.canvas);
+  	
+
+  	$scope.clearit = function clearit(){
+    	// Store the current transformation matrix
+    	// Use the identity matrix while cleaplane the canvas
+    	$scope.canvascanvasContext.setTransform(1, 0, 0, 1, 0, 0);
+    	$scope.canvascanvasContext.clearRect(0, 0, $scope.width, $scope.height);
+    	$scope.canvas.width = $scope.canvas.width;
+  	};
 
 
-		angular.forEach($scope.canvascanvasContextArray, function(value, key) {
-	        $scope.red = $scope.randomColor(255);
-	        $scope.green = $scope.randomColor(255);
-	        $scope.blue = $scope.randomColor(255);
-	        $scope.canvascanvasContext.beginPath();
-	        $scope.grd = $scope.canvascanvasContext.createLinearGradient($scope.quadracpx,$scope.quadracpy,$scope.quadrax,$scope.quadray);
-	          // Create color gradient
-	        $scope.grd.addColorStop(0,    "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+", 1)");
-	        $scope.grd.addColorStop(0.15, "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+", 1)");
-	        $scope.grd.addColorStop(0.33, "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+", 1)");
-	        $scope.grd.addColorStop(0.49, "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+", 1)");
-	        $scope.grd.addColorStop(0.67, "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+", 1)");
-	        $scope.grd.addColorStop(0.84, "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+", 1)");
-	        $scope.grd.addColorStop(1,    "rgba("+$scope.red+", "+$scope.green+", "+$scope.blue+",  1)");
-	        $scope.canvascanvasContext.strokeStyle = $scope.grd;
-	        $scope.canvascanvasContext.lineCap = 'round';
-	        $scope.canvascanvasContext.shadowBlur = 3;
-	        $scope.canvascanvasContext.shadowColor = "rgb("+$scope.red+", "+$scope.green+", "+$scope.blue+")";
-     
-	      	$scope.canvascanvasContext.fillStyle = $scope.grd;
-	      	$scope.canvascanvasContext.beginPath();
-	           //         arc(x,y,r,start,stop)
-		    $scope.Xmove = Math.floor(Math.random() * (690 - 10 + 1)) + 10;
-	      	$scope.canvascanvasContext.arc(350,350,$scope.Xmove,0,Math.PI*2,true);
-	      	$scope.canvascanvasContext.stroke();
-	      	$scope.canvascanvasContext.closePath();
-	        $scope.canvascanvasContext.save();
-		});
-	        $scope.canvascanvasContext.restore();
-	        $scope.globalID = requestAnimFrame($scope.draw);
-	  };
+  	$scope.draw = function draw(){
+  		$scope.globalID = requestAnimFrame($scope.draw);
 
-	  	$scope.drawit = function drawit(){
-			$scope.canvascanvasContext.beginPath();
-			$scope.canvascanvasContext.arc(350, $scope.canvas.width / 2, $scope.canvas.width / 2, 0, 2 * Math.PI, !0);
-			$scope.canvascanvasContext.clip();
-			$scope.canvascanvasContext.closePath();
-			$scope.globalID = requestAnimFrame($scope.draw);      
-	 		$scope.globalIDrot = requestAnimFrame($scope.rotate);
-	  	};
-		$scope.rotate = function rotate(){
-			$scope.canvascanvasContext.translate($scope.canvas.width/2, $scope.canvas.width/2);
-			$scope.canvascanvasContext.rotate(Math.PI/$scope.Xmove);
-			$scope.canvascanvasContext.translate(-$scope.canvas.width/2, -$scope.canvas.width/2);
-			$scope.globalIDrot = requestAnimFrame($scope.rotate);
-		};
-	  $scope.stopit = function stopit(){
-	      cancelRequestAnimFrame($scope.globalID);
-	      cancelRequestAnimFrame($scope.globalIDrot);
-	  
-	  };
-  });
+		$scope.cameracontrols = true;
+
+
+		$scope.camera.position.y;
+		$scope.camera.position.x;
+		$scope.camera.position.z;
+
+		$scope.plane.rotation.y;
+		$scope.plane.rotation.x;	
+		$scope.plane.rotation.z;
+
+		$scope.light.position.set( $scope.light.position.x, $scope.light.position.y, $scope.light.position.z );
+
+		$scope.TorusKnot.rotation.y += 0.01;
+		$scope.TorusKnot.rotation.x += 0.01;		
+  		
+  		$scope.renderer.render($scope.scene, $scope.camera);
+
+  	};
+  	$scope.drawit = function drawit(){
+  		$scope.globalID = $scope.draw();
+  	};
+	$scope.stopit = function stopit(){
+	    cancelRequestAnimFrame($scope.globalID);
+	    cancelRequestAnimFrame($scope.globalIDrot);
+	};
+});

@@ -1,8 +1,2 @@
 'use strict';
-
-
-
-angular.module('spiroApp')
-  .controller('MainCtrl', function ($scope) {
-
-});
+angular.module('spiroApp').controller('MainCtrl', function () {});

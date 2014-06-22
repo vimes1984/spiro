@@ -1,28 +1,29 @@
+<div class="container">
+      <div class="row marketing">
+      <h3 class="text-muted">Roll your own</h3>
+            <ul class="nav nav-pills pull-right span4">
+      		<li ng-click="drawit()" class="drawit"><a>Draw it</a></li>
+      		<li ng-click="stopit()" class="drawit"><a>Stop it</a></li>
+      		<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>
+            </ul>
+            <fieldset class="span8 pull-left">
+            	<label for="numblines">Number of lines(note to Aaron no more than 500!)</label>
+            	<input type="number" name="numblines" ng-model="numberoflines" /> <br>
+            	<label for="middlesetX">Set point X</label>
+            	<input type="number" name="middlesetX" ng-model="middlesetX" />    <br>  	      	
+            	<label for="middlesetY">Set point Y</label>
+            	<input type="number" name="middlesetY" ng-model="middlesetY" />    <br> 
+            	<label for="beziercurveincY">bezier curve increments Y</label>
+            	<input type="number" name="beziercurveincY" ng-model="beziercurveincY" />    <br> 
+            	<label for="beziercurveincX">bezier curve increments X</label>
+            	<input type="number" name="beziercurveincX" ng-model="beziercurveincX" />    <br> 
 
-<div class="row marketing">
-<h3 class="text-muted">Roll your own</h3>
-      <ul class="nav nav-pills pull-right span4">
-		<li ng-click="drawit()" class="drawit"><a>Draw it</a></li>
-		<li ng-click="stopit()" class="drawit"><a>Stop it</a></li>
-		<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>
-      </ul>
-      <fieldset class="span8 pull-left">
-      	<label for="numblines">Number of lines(note to Aaron no more than 500!)</label>
-      	<input type="number" name="numblines" ng-model="numberoflines" /> <br>
-      	<label for="middlesetX">Set point X</label>
-      	<input type="number" name="middlesetX" ng-model="middlesetX" />    <br>  	      	
-      	<label for="middlesetY">Set point Y</label>
-      	<input type="number" name="middlesetY" ng-model="middlesetY" />    <br> 
-      	<label for="beziercurveincY">bezier curve increments Y</label>
-      	<input type="number" name="beziercurveincY" ng-model="beziercurveincY" />    <br> 
-      	<label for="beziercurveincX">bezier curve increments X</label>
-      	<input type="number" name="beziercurveincX" ng-model="beziercurveincX" />    <br> 
+            	<button ng-click="redrawit()">Re-Draw</button>
+            </fieldset>
+      <canvas ng-mousemove="getMousePos($event)" width="700" height="700" id="spiro"></canvas>  
+      </div>
 
-      	<button ng-click="redrawit()">Re-Draw</button>
-      </fieldset>
-<canvas ng-mousemove="getMousePos($event)" width="700" height="700" id="spiro"></canvas>  
-</div>
-
-<div class="footer">
-  <p><span class="glyphicon glyphicon-heart"></span> from Build A web doctor</p>
+      <div class="footer">
+        <p><span class="glyphicon glyphicon-heart"></span> from Build A web doctor</p>
+      </div>
 </div>

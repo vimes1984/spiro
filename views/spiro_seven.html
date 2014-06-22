@@ -1,12 +1,52 @@
 
 <div class="row marketing">
-<h3 class="text-muted">WEBGL</h3>
-      <ul class="nav nav-pills pull-right">
-		<li ng-click="drawit()" class="drawit"><a>Draw it</a></li>
-		<li ng-click="stopit()" class="drawit"><a>Stop it</a></li>
-		<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>
-      </ul>
-<canvas ng-mousemove="getMousePos($event)" width="700" height="700" id="spiro"></canvas>  
+	<div class="container">
+		<h3 class="text-muted">WEBGL</h3>
+      	<ul class="nav nav-pills pull-right">
+			<li ng-click="drawit()" class="drawit"><a>Draw</a></li>
+			<li ng-click="drawit()" class="drawit"><a>Speed up</a></li>
+			<li ng-click="stopit()" class="drawit"><a>Slow down</a></li>
+			<!--<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>-->
+      	</ul>
+  	</div>
+	<div ng-show="cameracontrols" id="cameracontrols">
+		<div class="row5">
+			<h4 class="text-muted">Camera Controls</h4>
+			<label>Camera Position Y</label>
+			<input type="number" name="camera.position.y" ng-model="camera.position.y" /><br>
+	    	<label>Camera Position X</label>
+			<input type="number" name="camera.position.x" ng-model="camera.position.x" /><br>
+			<label>Camera Position Z</label>
+			<input type="number" name="camera.position.z" ng-model="camera.position.z" /><br>
+		</div>
+		<div class="row5">
+			<h4 class="text-muted">Plane Controls</h4>
+			<label>Plane Rotation Y</label>
+			<input type="number" step="0.01" name="plane.rotation.y" ng-model="plane.rotation.y" /><br>
+	    	<label>Plane Rotation X</label>
+			<input type="number" step="0.01" name="plane.rotation.x" ng-model="plane.rotation.x" /><br>
+		</div>
+		<div class="row5">
+			<h4 class="text-muted">Torus Controls</h4>
+			<label>TorusKnot Position Y</label>
+			<input type="number" name="TorusKnot.position.y" ng-model="TorusKnot.position.y" /><br>
+	    	<label>TorusKnot Position X</label>
+			<input type="number" name="TorusKnot.position.x" ng-model="TorusKnot.position.x" /><br>
+			<label>TorusKnot Position Z</label>
+			<input type="number" name="TorusKnot.position.z" ng-model="TorusKnot.position.z" /><br>
+		</div>		
+		<div class="row5">
+			<h4 class="text-muted">light Controls</h4>
+			<label>light Position Y</label>
+			<input type="number" name="light.position.y" ng-model="light.position.y" /><br>
+	    	<label>light Position X</label>
+			<input type="number" name="light.position.x" ng-model="light.position.x" /><br>
+			<label>light Position Z</label>
+			<input type="number" name="light.position.z" ng-model="light.position.z" /><br>
+		</div>
+	</div>
+
+      <div id="spirocube"></div>	
 
 </div>
 

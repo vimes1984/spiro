@@ -1,15 +1,15 @@
+<div class="container">
+	<div class="row marketing">
+		<h3 class="text-muted">Circles no fade</h3>
+	    	<ul class="nav nav-pills pull-right">
+				<li ng-click="drawit()" class="drawit"><a>Draw it</a></li>
+				<li ng-click="stopit()" class="drawit"><a>Stop it</a></li>
+				<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>
+	      	</ul>
+		<canvas ng-mousemove="getMousePos($event)" width="700" height="700" id="spiro"></canvas>  
+	</div>
 
-<div class="row marketing">
-<h3 class="text-muted">Circles</h3>
-      <ul class="nav nav-pills pull-right">
-		<li ng-click="drawit()" class="drawit"><a>Draw it</a></li>
-		<li ng-click="stopit()" class="drawit"><a>Stop it</a></li>
-		<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>
-      </ul>
-<canvas ng-mousemove="getMousePos($event)" width="700" height="700" id="spiro"></canvas>  
-
-</div>
-
-<div class="footer">
-  <p><span class="glyphicon glyphicon-heart"></span> from Build A web doctor</p>
+	<div class="footer">
+  		<p><span class="glyphicon glyphicon-heart"></span> from Build A web doctor</p>
+	</div>
 </div>
