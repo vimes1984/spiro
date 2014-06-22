@@ -11,7 +11,7 @@ angular.module('spiroApp')
 		$scope.floor.repeat.set( 1, 1 );
 		$scope.renderer = new THREE.WebGLRenderer({antialias: true});
 		$scope.renderer.shadowMapEnabled = true;
-		$scope.renderer.setClearColorHex( 0x000000, 1 );
+		$scope.renderer.setClearColor( 0x000000, 1 );
 		$('#spirocube').append( $scope.renderer.domElement );
 		$scope.canvas = $('#spirocube')[0];
 		//basic setup scene camera first

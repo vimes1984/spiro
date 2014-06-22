@@ -1,3 +1,3 @@
-My personal Canvas experiments//
-Spiro experiments you can find an example here: 
-<a href="http://buildawebdoctor.com/webgl/spiro/" target="_blank">Example</a>
+<h1>Canvas and WEBGL experiments</h1>
+My personal Canvas experiments  with plain old Canvas, ThreeJS and phsyisJS experiments you can find an example here: 
+<a href="http://buildawebdoctor.com/canvas" target="_blank">Example</a>

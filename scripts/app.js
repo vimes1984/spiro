@@ -1,3 +1,4 @@
+
 'use strict';
 // shim layer with setTimeout fallback
 window.requestAnimFrame = (function(){
@@ -16,6 +17,7 @@ window.cancelRequestAnimFrame = ( function() {
         window.msCancelRequestAnimationFrame        ||
         clearTimeout;
   })();
+
 angular
   .module('spiroApp', [
     'ngCookies',

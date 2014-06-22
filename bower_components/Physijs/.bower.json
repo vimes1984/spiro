@@ -1,0 +1,24 @@
+{
+  "name": "Physijs",
+  "main": [
+    "physi.js"
+  ],
+  "ignore": [
+    ".jshintrc"
+  ],
+  "dependencies": {
+    "threejs-build": "https://github.com/bodylabs/threejs-build",
+    "ammo.js": "builds/ammo.js"
+  },
+  "homepage": "https://github.com/chandlerprall/Physijs",
+  "_release": "55618724f1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "55618724f1dbac427e2f1f808f3280f73de5635c"
+  },
+  "_source": "git@github.com:chandlerprall/Physijs.git",
+  "_target": "*",
+  "_originalSource": "git@github.com:chandlerprall/Physijs.git",
+  "_direct": true
+}

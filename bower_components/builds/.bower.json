@@ -1,0 +1,13 @@
+{
+  "name": "builds",
+  "_cacheHeaders": {
+    "ETag": "\"f1a85a74c7a5923505e956b5eb152c47\"",
+    "Content-Length": "25949",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "_release": "e-tag:f1a85a74c",
+  "main": "index",
+  "_source": "https://github.com/kripken/ammo.js/tree/master/builds",
+  "_target": "*",
+  "_originalSource": "https://github.com/kripken/ammo.js/tree/master/builds"
+}
