@@ -6,9 +6,8 @@ angular.module('spiroApp')
     $scope.cameracontrols = false;
     //images and testures
     $scope.floor = THREE.ImageUtils.loadTexture( '../images/floor.jpg' );
-    $scope.floor.wrapS = THREE.RepeatWrapping;
-	$scope.floor.wrapT = THREE.RepeatWrapping;
-
+	//$scope.floor.wrapS = $scope.floor.wrapT = THREE.RepeatWrapping;
+	$scope.floor.repeat.set( 1, 1 );
 
 	$scope.renderer = new THREE.WebGLRenderer({antialias: true});
 	$scope.renderer.shadowMapEnabled = true;
@@ -32,7 +31,7 @@ angular.module('spiroApp')
 		height — Height along the Y axis.
 		widthSegments — Optional. Default is 1. 
 		heightSegments — Optional. Default is 1.*/
-	$scope.geometryplane = new  THREE.PlaneGeometry(window.innerHeight/2, window.innerWidth/2,200,200 );
+	$scope.geometryplane = new  THREE.PlaneGeometry(500, 500,200,200 );
 	/*TorusKnotGeometry(radius, tube, radialSegments, tubularSegments, p, q, heightScale)
 		radius — Default is 100. 
 		tube — Default is 40. 
@@ -41,42 +40,65 @@ angular.module('spiroApp')
 		p — Default is 2. 
 		q — Default is 3. 
 		heightScale — Default is 1.*/
-	$scope.geometrytorus =new THREE.TorusKnotGeometry( 5, 1.5, 50, 8 );
+	$scope.geometrytorus =new THREE.TorusKnotGeometry( 30, 5, 50, 8 );
 	//material next 
-	$scope.randomColor = '0x'+Math.floor(Math.random()*16777215).toString(16);
-
-	$scope.material = new THREE.MeshPhongMaterial( { 
+	$scope.material = new THREE.MeshBasicMaterial( { 
 		color: 0xff0000,
 		side: THREE.DoubleSide,
-	} );
+		reflectivity: 0.5,
+		shininess: 10,
+		map: $scope.floor,
+
+	});
 
 	$scope.materialplane = new THREE.MeshBasicMaterial( { 
-		color: 0xffffff,
 		//wireframe: false,
 		side: THREE.DoubleSide,
+		color: 0xffffff,
+		specular:0xffffff,
+		shininess: 10,
 		map: $scope.floor,
-	} );
+		reflectivity: 0.05
+	});
 	//then put it together 
 
 	$scope.TorusKnot = new THREE.Mesh( $scope.geometrytorus, $scope.material );
 
 	$scope.plane = new THREE.Mesh( $scope.geometryplane, $scope.materialplane ); 
-
 	$scope.light = new THREE.SpotLight( 0xffffff, 1, 100 );
+
+	$scope.plane.castShadow = false;
+	$scope.plane.receiveShadow = true;
+
+	$scope.TorusKnot.castShadow = true;
+	$scope.TorusKnot.receiveShadow = false;
+
+	$scope.light.castShadow = true;
+
+	$scope.light.shadowDarkness = 0.5;
+
+	$scope.light.shadowCameraVisible = true;
+
+	$scope.light.shadowCameraRight     =  5;
+	$scope.light.shadowCameraLeft     = -5;
+	$scope.light.shadowCameraTop      =  5;
+	$scope.light.shadowCameraBottom   = -5;
+
+
 
 	//default object positions/rotations
 	$scope.plane.rotation.y = 21.91;
 	$scope.plane.rotation.x = 21.150000000000677;	
 	$scope.plane.rotation.z = 21.150000000000677;
 
-	$scope.TorusKnot.position.y = 14;
-	$scope.TorusKnot.position.x = 13;	
+	$scope.TorusKnot.position.y = 65;
+	$scope.TorusKnot.position.x = 11;	
 	
 
-	$scope.camera.position.z = 113;
+	$scope.camera.position.z = 476;
 
 
-	$scope.light.position.set( 50, 50, 50 );
+	$scope.light.position.set( 230, 123, 56 );
 	
 	// lights 
 
@@ -84,17 +106,7 @@ angular.module('spiroApp')
 
 
 	console.log($scope.light);
-	$scope.TorusKnot.receiveShadow = true;
-	$scope.plane.receiveShadow = true;
 
-	$scope.light.castShadow = true;
-
-	$scope.light.shadowDarkness = 0.5;
-	$scope.light.shadowCameraVisible = true;
-	$scope.light.shadowCameraRight     =  5;
-	$scope.light.shadowCameraLeft     = -5;
-	$scope.light.shadowCameraTop      =  5;
-	$scope.light.shadowCameraBottom   = -5;
 	$scope.scene.add( $scope.light );
 	
 	//add our obejects to the scene
