@@ -6,8 +6,8 @@ angular.module('spiroApp')
   .controller('SpiroEightCtrl', function ($scope) {
  //   Physijs.scripts.worker = '/canvas/bower_components/Physijs/physijs_worker.js';
   //  Physijs.scripts.ammo = '/canvas/bower_components/ammo.js/builds/ammo.js';
-    Physijs.scripts.worker = '/bower_components/Physijs/physijs_worker.js';
     Physijs.scripts.ammo = '/bower_components/ammo.js/builds/ammo.js';
+    Physijs.scripts.worker = '/bower_components/Physijs/physijs_worker.js';
 
 	var initScene, render, createShape, NoiseGen,
 		renderer, render_stats, physics_stats, scene, light, ground, ground_geometry, ground_material, camera;
@@ -79,16 +79,16 @@ angular.module('spiroApp')
 		
 		// If your plane is not square as far as face count then the HeightfieldMesh
 		// takes two more arguments at the end: # of x faces and # of y faces that were passed to THREE.PlaneMaterial
-		ground = new Physijs.HeightfieldMesh(
+		$scope.ground = new Physijs.HeightfieldMesh(
 			ground_geometry,
 			ground_material,
 			0, // mass
 			50,
 			50
 		);
-		ground.rotation.x = Math.PI / -2;
-		ground.receiveShadow = true;
-		scene.add( ground );
+		$scope.ground.rotation.x = Math.PI / -2;
+		$scope.ground.receiveShadow = true;
+		scene.add( $scope.ground );
 		
 		requestAnimFrame( render );
 		scene.simulate();
@@ -101,7 +101,7 @@ angular.module('spiroApp')
 		renderer.render( scene, camera );
 	};
 	
-	createShape = (function() {
+		createShape = (function() {
 		var addshapes = true,
 			shapes = 0,
 			box_geometry = new THREE.CubeGeometry( 3, 3, 3 ),
