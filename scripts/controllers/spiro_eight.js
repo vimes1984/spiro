@@ -4,29 +4,25 @@
 
 angular.module('spiroApp')
   .controller('SpiroEightCtrl', function ($scope) {
- //  Physijs.scripts.worker = '/canvas/bower_components/Physijs/physijs_worker.js';
-  //  Physijs.scripts.ammo = '/canvas/bower_components/ammo.js/builds/ammo.js';
-    Physijs.scripts.ammo = '/bower_components/ammo.js/builds/ammo.js';
-    Physijs.scripts.worker = '/bower_components/Physijs/physijs_worker.js';
-	var initScene, render, createShape, NoiseGen,
-		renderer, render_stats, physics_stats, scene, light, ground, ground_geometry, ground_material;
-	
+   	Physijs.scripts.worker = '/canvas/bower_components/Physijs/physijs_worker.js';
+    Physijs.scripts.ammo = '/canvas/bower_components/ammo.js/builds/ammo.js';
+	var  render, createShape;
+
+	$scope.addshapes = true;
+	$scope.renderer = new THREE.WebGLRenderer({ antialias: true });
+	$scope.renderer.setSize( window.innerWidth, window.innerHeight );
+	$scope.renderer.shadowMapEnabled = true;
+	$scope.renderer.shadowMapSoft = true;
+	document.getElementById( 'spirocube' ).appendChild( $scope.renderer.domElement );
+		
 	$scope.initScene = function() {
-		TWEEN.start();
-		
-		renderer = new THREE.WebGLRenderer({ antialias: true });
-		renderer.setSize( window.innerWidth, window.innerHeight );
-		renderer.shadowMapEnabled = true;
-		renderer.shadowMapSoft = true;
-		document.getElementById( 'spirocube' ).appendChild( renderer.domElement );
-		
-		
-		scene = new Physijs.Scene({ fixedTimeStep: 1 / 120 });
-		scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
-		scene.addEventListener(
+		TWEEN.start();	
+		$scope.scene = new Physijs.Scene({ fixedTimeStep: 1 / 60 });
+		$scope.scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
+		$scope.scene.addEventListener(
 			'update',
 			function() {
-				scene.simulate( undefined, 2 );
+				$scope.scene.simulate( undefined, 2 );
 			}
 		);
 		$scope.camera = new THREE.PerspectiveCamera(
@@ -35,77 +31,75 @@ angular.module('spiroApp')
 			1,
 			1000
 		);
-			$scope.camera.position.y = 60;
-			$scope.camera.position.x = 50;
-			$scope.camera.position.z = 50;
+		$scope.camera.position.y = 60;
+		$scope.camera.position.x = 50;
+		$scope.camera.position.z = 50;
 		$scope.camera.position.set( $scope.camera.position.y, $scope.camera.position.x, $scope.camera.position.z );
-		$scope.camera.lookAt( scene.position );
-		scene.add( $scope.camera );
+		$scope.camera.lookAt( $scope.scene.position );
+		$scope.scene.add( $scope.camera );
 		
 		// Light
-		light = new THREE.DirectionalLight( 0xFFFFFF );
-		light.position.set( 20, 40, -15 );
-		light.target.position.copy( scene.position );
-		light.castShadow = true;
-		light.shadowCameraLeft = -60;
-		light.shadowCameraTop = -60;
-		light.shadowCameraRight = 60;
-		light.shadowCameraBottom = 60;
-		light.shadowCameraNear = 20;
-		light.shadowCameraFar = 200;
-		light.shadowBias = -.0001
-		light.shadowMapWidth = light.shadowMapHeight = 2048;
-		light.shadowDarkness = .7;
-		scene.add( light );
+		$scope.light = new THREE.DirectionalLight( 0xFFFFFF );
+		$scope.light.position.set( 20, 40, -15 );
+		$scope.light.target.position.copy( $scope.scene.position );
+		$scope.light.castShadow = true;
+		$scope.light.shadowCameraLeft = -60;
+		$scope.light.shadowCameraTop = -60;
+		$scope.light.shadowCameraRight = 60;
+		$scope.light.shadowCameraBottom = 60;
+		$scope.light.shadowCameraNear = 20;
+		$scope.light.shadowCameraFar = 200;
+		$scope.light.shadowBias = -.0001
+		$scope.light.shadowMapWidth = $scope.light.shadowMapHeight = 2048;
+		$scope.light.shadowDarkness = .7;
+		$scope.scene.add( $scope.light );
 		
 		// Materials
-		ground_material = Physijs.createMaterial(
+		$scope.ground_material = Physijs.createMaterial(
 			new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( '../images/floor.jpg' ) }),
 			.1, // high friction
 			.4 // low restitution
 		);
-		ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-		ground_material.map.repeat.set( 1, 1 );
+		$scope.ground_material.map.wrapS = $scope.ground_material.map.wrapT = THREE.RepeatWrapping;
+		$scope.ground_material.map.repeat.set( 1, 1 );
 		
 		// Ground
-		NoiseGen = new SimplexNoise;
+		$scope.NoiseGen = new SimplexNoise;
 		
-		ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
-		for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
-			var vertex = ground_geometry.vertices[i];
-			vertex.z = NoiseGen.noise( vertex.x / 200, vertex.y / 20 ) * 2;
+		$scope.ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
+		for ( var i = 0; i < $scope.ground_geometry.vertices.length; i++ ) {
+			var vertex = $scope.ground_geometry.vertices[i];
+			vertex.z = $scope.NoiseGen.noise( vertex.x / 20, vertex.y / 20 ) * 2;
 		}
-		ground_geometry.computeFaceNormals();
-		ground_geometry.computeVertexNormals();
+		$scope.ground_geometry.computeFaceNormals();
+		$scope.ground_geometry.computeVertexNormals();
 		
 		// If your plane is not square as far as face count then the HeightfieldMesh
 		// takes two more arguments at the end: # of x faces and # of y faces that were passed to THREE.PlaneMaterial
 		$scope.ground = new Physijs.HeightfieldMesh(
-			ground_geometry,
-			ground_material,
+			$scope.ground_geometry,
+			$scope.ground_material,
 			0, // mass
 			50,
 			50
 		);
 		//$scope.ground.rotation.y;
-	$scope.ground.rotation.x = Math.PI / -2;
+		$scope.ground.rotation.x = Math.PI / -2;
 		$scope.ground.receiveShadow = true;
-		scene.add( $scope.ground );
+		$scope.scene.add( $scope.ground );
 		
-		requestAnimFrame( render );
-		scene.simulate();
+		requestAnimFrame( $scope.render );
+		$scope.scene.simulate();
 		
-		createShape();
+		$scope.createShape();
 	};
 	
-	render = function() {
-		$scope.globalID = requestAnimFrame( render );
-		renderer.render( scene, $scope.camera );
+	$scope.render = function() {
+		$scope.globalID = requestAnimFrame( $scope.render );
+		$scope.renderer.render( $scope.scene, $scope.camera );
 	};
-	
-		createShape = (function() {
-		var addshapes = true,
-			shapes = 0,
+	$scope.createShape = (function() {
+		var	shapes = 0,
 			box_geometry = new THREE.CubeGeometry( 3, 3, 3 ),
 			sphere_geometry = new THREE.SphereGeometry( 1.5, 32, 32 ),
 			cylinder_geometry = new THREE.CylinderGeometry( 2, 2, 1, 32 ),
@@ -114,16 +108,7 @@ angular.module('spiroApp')
 			torus_geometry = new THREE.TorusKnotGeometry ( 1.7, .2, 32, 4 ),
 			doCreateShape;
 		
-		setTimeout(
-			function addListener() {
-				var button = document.getElementById( 'stop' );
-				if ( button ) {
-					button.addEventListener( 'click', function() { addshapes = false; } );
-				} else {
-					setTimeout( addListener );
-				}
-			}
-		);
+		
 			
 		doCreateShape = function() {
 			var shape, material = new THREE.MeshLambertMaterial({ opacity: 0, transparent: true });
@@ -143,6 +128,13 @@ angular.module('spiroApp')
 						undefined,
 						{ restitution: Math.random() * 1.5 }
 					);
+				case 2:
+					shape = new Physijs.SphereMesh(
+						sphere_geometry,
+						material,
+						undefined,
+						{ restitution: Math.random() * 1.5 }
+					);					
 					break;
 			}
 				
@@ -162,13 +154,12 @@ angular.module('spiroApp')
 				Math.random() * Math.PI
 			);
 			
-			if ( addshapes ) {
-				shape.addEventListener( 'ready', createShape );
+			if ( $scope.addshapes ) {
+				shape.addEventListener( 'ready', $scope.createShape );
 			}
-			scene.add( shape );
+			$scope.scene.add( shape );
 			
-			new TWEEN.Tween(shape.material).to({opacity: 1}, 500).start();
-			
+			new TWEEN.Tween(shape.material).to({opacity: 1}, 500).start();	
 		};
 		
 		return function() {
@@ -178,12 +169,9 @@ angular.module('spiroApp')
 	$scope.drawit = function(){
 		$scope.cameracontrols = true;
 		$scope.initScene();
+		$scope.addshapes = true;
 	}
-	$scope.stopit = function stopit(){;
-			cancelRequestAnimFrame($scope.globalID);
-			cancelRequestAnimFrame($scope.globalIDrot);
+	$scope.stopit = function stopit(){
+			$scope.addshapes = false;
 	};
   });
-
-
-
