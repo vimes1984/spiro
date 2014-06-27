@@ -7,8 +7,7 @@
     ".jshintrc"
   ],
   "dependencies": {
-    "threejs-build": "https://github.com/bodylabs/threejs-build",
-    "ammo.js": "builds/ammo.js"
+    "threejs-build": "https://github.com/bodylabs/threejs-build"
   },
   "homepage": "https://github.com/chandlerprall/Physijs",
   "_release": "55618724f1",

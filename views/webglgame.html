@@ -1,0 +1,46 @@
+
+<div class="row marketing">
+	<div class="container">
+		<h3 class="text-muted">WEBGL</h3>
+      	<ul class="nav nav-pills pull-right">
+			<li ng-click="drawit()" class="drawit"><a>Draw</a></li>
+			<li ng-click="stopit()" class="drawit"><a>Stop adding objects</a></li>
+			<!--<li ng-click="clearit()" class="drawit"><a>Clear all</a></li>-->
+      	</ul>
+  	</div>
+	<div ng-show="cameracontrols" id="cameracontrols">
+		<div class="row5">
+		</div>
+		<div class="row5">
+			<h4 class="text-muted">Plane Controls</h4>
+			<label>Plane Rotation X</label>
+			<input type="number" step="0.01" name="wall4.rotation.x" ng-model="wall4.rotation.x" /><br>
+	    	<label>Plane Rotation Y</label>
+			<input type="number" step="0.01" name="wall4.rotation.y" ng-model="wall4.rotation.y" /><br>
+			<input type="number" step="0.01" name="wall4.rotation.z" ng-model="wall4.rotation.z" /><br>
+		</div>	
+		<div class="row5">
+			<h4 class="text-muted">Plane Controls</h4>
+			<label>Plane position X</label>
+			<input type="number"  name="wall4.position.x" ng-model="wall4.position.x" /><br>
+	    	<label>Plane position Y</label>
+			<input type="number"  name="wall4.position.y" ng-model="wall4.position.y" /><br>
+			<input type="number"  name="wall4.position.z" ng-model="wall4.position.z" /><br>
+		</div>	
+		<div class="row5">
+			<h4 class="text-muted">light Controls</h4>
+			<label>light Position Y</label>
+			<input type="number" name="light.position.y" ng-model="light.position.y" /><br>
+	    	<label>light Position X</label>
+			<input type="number" name="light.position.x" ng-model="light.position.x" /><br>
+			<label>light Position Z</label>
+			<input type="number" name="light.position.z" ng-model="light.position.z" /><br>
+		</div>
+	</div>
+      <div id="spirocube"></div>	
+
+</div>
+
+<div class="footer">
+  <p><span class="glyphicon glyphicon-heart"></span> from Build A web doctor</p>
+</div>

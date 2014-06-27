@@ -71,6 +71,10 @@ angular
         templateUrl: 'views/spiro_eight.html',
         controller: 'SpiroEightCtrl'
       })
+      .when('/webglgame', {
+        templateUrl: 'views/webglgame.html',
+        controller: 'WebglgameCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

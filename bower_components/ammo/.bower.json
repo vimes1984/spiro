@@ -1,0 +1,13 @@
+{
+  "name": "ammo",
+  "_cacheHeaders": {
+    "ETag": "\"1e73a718b610765e748a1689f8b268c91cdc59d4\"",
+    "Content-Length": "1199965",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:1e73a718b",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/kripken/ammo.js/master/builds/ammo.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/kripken/ammo.js/master/builds/ammo.js"
+}

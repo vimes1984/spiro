@@ -1,0 +1,20 @@
+{
+  "name": "OrbitControls",
+  "Dependencies": {
+    "sizzle": "1.10.19",
+    "requirejs": "2.1.10",
+    "qunit": "1.14.0",
+    "sinon": "1.8.1"
+  },
+  "_cacheHeaders": {
+    "ETag": "\"fc5ca09245703cae7ec873d8ad1905b154916b3e\"",
+    "Content-Length": "14901",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:fc5ca0924",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js",
+  "_direct": true
+}
